@@ -1,4 +1,3 @@
-
 SearchedLinks = []
 UnsearchedLinks = []
 Chain = []
@@ -981,7 +980,6 @@ def main():
 	else:
 		print('No match could be found')
 
-
 	print(top + " > " + bottom)
 	printChain(top, bottom)
 	return
@@ -994,16 +992,11 @@ def printChain(top, bottom):
 	chain += " > " + bottom
 	
 	print(chain)
-	
-	
-	
-		
+
 def findEndLink(target):
 	global UnsearchedLinks
 	global SearchedLinks
 	global Chain
-	
-	
 	
 	if not UnsearchedLinks:
 		raise Exception('Target not Found')
@@ -1016,19 +1009,7 @@ def findEndLink(target):
 			return True
 			
 	return False
-		
-		
-		#for pair in allPairs:
-	#		if link == pair[0]:
-#				if target == pair[1]:
-#					return target
-#				else:
-#					UnsearchedLinks.append(pair[1])
-#		SearchedLinks.append(link)
-#	unsearchedLinksCopy = []
-#	return findEndLink(target)
-		
-		
+
 def searchLink(link, target):
 	global SearchedLinks
 
@@ -1046,9 +1027,7 @@ def searchLink(link, target):
 						Chain.append(link)
 						return True
 	return False
-	
 
-				
 def checkForMatch(first, second):
 	global UnsearchedLinks
 	global SearchedLinks
@@ -1066,5 +1045,5 @@ def checkForMatch(first, second):
 				UnsearchedLinks.append(pair[1])
 				
 	return False
-	
+
 main()
