@@ -1,6 +1,7 @@
 
 SearchedLinks = []
 UnsearchedLinks = []
+Chain = []
 Pairs = [
 	['Acadia National Park','Bald Eagle'],
 	['Acadia National Park','Barcelona'],
@@ -957,26 +958,41 @@ def getPairs():
 	return Pairs
 
 def main():	
+	global Chain
+	global UnsearchedLinks
+	global SearchedLinks
+	
 	first = input('Enter first search term: ')
 	second = input('Enter second search term: ')
 	
-	chain = [first]
+	Chain = [first]
+	
+	print('Checking original order...')
 	
 	if checkForMatch(first, second):
 		return
-	elif checkForMatch(second, first):
-		return
 	else:
-		
 		try:
 			findEndLink(second)
 			print(first + " > " + second)
+			print(Chain)
+			return
 		except:
-			try:
-				findEndLink(first)
-				print(second + " > " + first)
-			except:
-				print('No match could be found')
+			print('Checking reverse order...')
+		
+	SearchedLinks = []
+	UnsearchedLinks = []
+	
+	if checkForMatch(second, first):
+		return
+	else:		
+		try:
+			findEndLink(first)
+			print(second + " > " + first)
+			print(Chain)
+			return
+		except:
+			print('No match could be found')
 		
 	
 	
@@ -984,6 +1000,7 @@ def main():
 def findEndLink(target):
 	global UnsearchedLinks
 	global SearchedLinks
+	global Chain
 	
 	allPairs = getPairs()
 	
@@ -1018,6 +1035,7 @@ def checkForMatch(first, second):
 		if first == pair[0]:
 			if second == pair[1]:
 				print(first + " > " + second)
+				print('(Direct Match)')
 				return True
 			else:
 				UnsearchedLinks.append(pair[1])
