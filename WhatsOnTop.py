@@ -989,7 +989,7 @@ def main():
 def printChain(top, bottom):
 	print("\nFull Chain:")
 	chain = top
-	for link in Chain:
+	for link in reversed(Chain):
 		chain += " > " + link
 	chain += " > " + bottom
 	
