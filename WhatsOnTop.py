@@ -964,36 +964,37 @@ def main():
 	
 	first = input('Enter first search term: ')
 	second = input('Enter second search term: ')
-	
-	Chain = [first]
-	
-	print('Checking original order...')
+	print("")
 	
 	if checkForMatch(first, second):
-		return
+		top = first
+		bottom = second
+	elif findEndLink(second):
+		top = first
+		bottom = second
+	elif checkForMatch(second, first):
+		top = second
+		bottom = first
+	elif findEndLink(first):
+		top = second
+		bottom = first
 	else:
-		try:
-			findEndLink(second)
-			print(first + " > " + second)
-			print(Chain)
-			return
-		except:
-			print('Checking reverse order...')
-		
-	SearchedLinks = []
-	UnsearchedLinks = []
+		print('No match could be found')
+
+
+	print(top + " > " + bottom)
+	printChain(top, bottom)
+	return
+
+def printChain(top, bottom):
+	print("\nFull Chain:")
+	chain = top
+	for link in Chain:
+		chain += " > " + link
+	chain += " > " + bottom
 	
-	if checkForMatch(second, first):
-		return
-	else:		
-		try:
-			findEndLink(first)
-			print(second + " > " + first)
-			print(Chain)
-			return
-		except:
-			print('No match could be found')
-		
+	print(chain)
+	
 	
 	
 		
@@ -1002,7 +1003,7 @@ def findEndLink(target):
 	global SearchedLinks
 	global Chain
 	
-	allPairs = getPairs()
+	
 	
 	if not UnsearchedLinks:
 		raise Exception('Target not Found')
@@ -1011,31 +1012,55 @@ def findEndLink(target):
 	UnsearchedLinks = []
 	
 	for link in unsearchedLinksCopy:
-		if link in SearchedLinks:
-			continue
-		for pair in allPairs:
-			if link == pair[0]:
-				if target == pair[1]:
-					return target
-				else:
-					UnsearchedLinks.append(pair[1])
-		SearchedLinks.append(link)
-	unsearchedLinksCopy = []
-	return findEndLink(target)
+		if searchLink(link, target):
+			return True
+			
+	return False
 		
 		
+		#for pair in allPairs:
+	#		if link == pair[0]:
+#				if target == pair[1]:
+#					return target
+#				else:
+#					UnsearchedLinks.append(pair[1])
+#		SearchedLinks.append(link)
+#	unsearchedLinksCopy = []
+#	return findEndLink(target)
+		
+		
+def searchLink(link, target):
+	global SearchedLinks
+
+	allPairs = getPairs()
+
+	for pair in allPairs:
+		if link == pair[0]:
+			if target == pair[1]:
+				Chain.append(link)
+				return True
+			else:
+				SearchedLinks.append(link)
+				if pair[1] not in SearchedLinks:
+					if searchLink(pair[1], target):
+						Chain.append(link)
+						return True
+	return False
 	
-				
+
 				
 def checkForMatch(first, second):
 	global UnsearchedLinks
+	global SearchedLinks
+	
+	SearchedLinks = []
+	UnsearchedLinks = []
 	allPairs = getPairs()
 
 	for pair in allPairs:
 		if first == pair[0]:
 			if second == pair[1]:
-				print(first + " > " + second)
-				print('(Direct Match)')
+				print('Direct Match:')
 				return True
 			else:
 				UnsearchedLinks.append(pair[1])
