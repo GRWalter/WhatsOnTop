@@ -1537,6 +1537,10 @@ def main():
 	firstWins = False
 	secondWins = False
 	
+	if not checkForMissingTerms(first, second):
+		return
+		
+	
 	if checkForMatch(first, second):
 		firstWins = True
 	elif findEndLink(second, 1):
@@ -1629,6 +1633,27 @@ def checkForMatch(first, second):
 			else:
 				UnsearchedLinks.append(pair[1])
 				
+	return False
+
+def checkForMissingTerms(first, second):
+	allPairs = getPairs()
+	firstFound = False
+	secondFound = False
+	
+	for pair in allPairs:
+		for item in pair:
+			if first.lower() == item.lower():
+				firstFound = True
+			if second.lower() == item.lower():
+				secondFound = True
+			if firstFound and secondFound:
+				return True
+	
+	if not firstFound:
+		print('Could not find term: ' + first)
+	if not secondFound:
+		print('Could not find term: ' + second)
+		
 	return False
 
 main()
