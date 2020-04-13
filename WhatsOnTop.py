@@ -1597,7 +1597,7 @@ def searchLink(link, target, check):
 
 	for pair in allPairs:
 		if link == pair[0]:
-			if target == pair[1]:
+			if target.lower() == pair[1].lower():
 				if check == 1:
 					Chain1.append(link)
 				elif check == 2:
@@ -1623,8 +1623,8 @@ def checkForMatch(first, second):
 	allPairs = getPairs()
 
 	for pair in allPairs:
-		if first == pair[0]:
-			if second == pair[1]:
+		if first.lower() == pair[0].lower():
+			if second.lower() == pair[1].lower():
 				return True
 			else:
 				UnsearchedLinks.append(pair[1])
