@@ -1555,7 +1555,7 @@ def main():
 	if secondWins:
 		print(second + " > " + first)
 		printChain(second, first, 2)	
-	else:
+	if not firstWins and not secondWins:
 		print('No match could be found')
 	
 	return
